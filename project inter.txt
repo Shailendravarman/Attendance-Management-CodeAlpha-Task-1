@@ -1,0 +1,2838 @@
+package attendance.management;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class addCourse extends JFrame implements ActionListener {
+    JLabel label5,label6,label9;
+
+    JTextField Course,Branch,Semester;
+    JButton add,back;
+
+    addCourse(){
+        super("ADD COURSE");
+
+        label5 = new JLabel("Course : ");
+        label5.setForeground(Color.BLACK);
+        label5.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label5.setBounds(80,20,100,40);
+        add(label5);
+
+
+        Course = new JTextField();
+        Course.setFont(new Font("Raleway",Font.BOLD,14));
+        Course.setBounds(200,30,200,23);
+        add(Course);
+
+
+        label6 = new JLabel("Branch : ");
+        label6.setForeground(Color.BLACK);
+        label6.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label6.setBounds(80,60,100,40);
+        add(label6);
+
+        Branch = new JTextField();
+        Branch.setFont(new Font("Raleway",Font.BOLD,14));
+        Branch.setBounds(200,70,200,23);
+        add(Branch);
+
+
+        label9 = new JLabel("Semester : ");
+        label9.setForeground(Color.BLACK);
+        label9.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label9.setBounds(80,100,100,40);
+        add(label9);
+
+        Semester = new JTextField();
+        Semester.setFont(new Font("Raleway",Font.BOLD,14));
+        Semester.setBounds(200,110,200,23);
+        add(Semester);
+
+        add = new JButton("ADD");
+        add.setFont(new Font("Arial",Font.BOLD,14));
+        add.setForeground(Color.WHITE);
+        add.setBackground(Color.black);
+        add.setBounds(220,160,100,20);
+        add.addActionListener(this);
+        add(add);
+
+        back = new JButton("BACK");
+        back.setFont(new Font("Arial",Font.BOLD,14));
+        back.setForeground(Color.WHITE);
+        back.setBackground(Color.black);
+        back.setBounds(80,160,100,20);
+        back.addActionListener(this);
+        add(back);
+
+        setLayout(null);
+        setSize(500,300);
+        setLocation(500,150);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try{
+            if(e.getSource()==add){
+                String course = Course.getText();
+                String branch = Branch.getText();
+                String sem = Semester.getText();
+
+                try{
+
+                    Con c = new Con();
+                    String query = "insert into courses values('"+course+"','"+branch+"','"+sem+"')";
+
+                    c.statement.executeUpdate(query);
+                    JOptionPane.showMessageDialog(null,"Details added successfully");
+
+
+                }
+                catch (Exception E){
+                    E.printStackTrace();
+                }}
+            else {
+                new courseAUD();
+            }
+        }
+        catch (Exception E)
+        {
+            E.printStackTrace();;
+        }
+
+    }
+
+    public static void main(String[] args) {
+        new addCourse();
+    }
+
+}
+package attendance.management;
+
+import com.sun.source.tree.CatchTree;
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JDateChooserBeanInfo;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+
+public class addStudent extends JFrame implements ActionListener {
+    JLabel label1,label2,label3,label4,label5,label6,label7,label8,label9;
+    JTextField Name,StudentID,Password,Email,Contact;
+
+    JDateChooser date;
+    Choice chCourse,chBranch,chSemester;
+
+    JButton add,back;
+    addStudent(){
+        super("ADD STUDENT");
+
+        label1 = new JLabel("ADD STUDENT");
+        label1.setForeground(Color.BLACK);
+        label1.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label1.setBounds(220,10,550,40);
+        add(label1);
+
+        label2 = new JLabel("Name : ");
+        label2.setForeground(Color.BLACK);
+        label2.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label2.setBounds(140,80,100,40);
+        add(label2);
+
+        Name = new JTextField();
+        Name.setFont(new Font("Raleway",Font.BOLD,14));
+        Name.setBounds(240,92,150,23);
+        add(Name);
+
+        label3 = new JLabel("Student ID : ");
+        label3.setForeground(Color.BLACK);
+        label3.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label3.setBounds(140,140,550,40);
+        add(label3);
+
+        StudentID = new JTextField();
+        StudentID.setFont(new Font("Raleway",Font.BOLD,14));
+        StudentID.setBounds(240,152,150,23);
+        add(StudentID);
+
+        label4 = new JLabel("DOB : ");
+        label4.setForeground(Color.BLACK);
+        label4.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label4.setBounds(140,200,550,40);
+        add(label4);
+
+        date = new JDateChooser();
+        date.setFont(new Font("Raleway",Font.BOLD,14));
+        date.setBounds(240,212,150,23);
+        add(date);
+
+
+        label5 = new JLabel("Course : ");
+        label5.setForeground(Color.BLACK);
+        label5.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label5.setBounds(140,260,100,40);
+        add(label5);
+
+        chCourse = new Choice();
+        chCourse.setBounds(240,272,200,23);
+        add(chCourse);
+
+
+        label6 = new JLabel("Branch : ");
+        label6.setForeground(Color.BLACK);
+        label6.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label6.setBounds(140,320,100,40);
+        add(label6);
+
+        chBranch = new Choice();
+        chBranch.setBounds(240,332,200,23);
+        add(chBranch);
+
+        label9 = new JLabel("Semester : ");
+        label9.setForeground(Color.BLACK);
+        label9.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label9.setBounds(140,380,100,40);
+        add(label9);
+
+        chSemester = new Choice();
+        chSemester.setBounds(240,390,200,23);
+        add(chSemester);
+
+        try{
+            Con c = new Con();
+            String query1 = "Select distinct CourseName from courses";
+            ResultSet resultSet1 = c.statement.executeQuery(query1);
+
+
+            while (resultSet1.next()){
+                chCourse.add(resultSet1.getString("CourseName"));
+
+            }
+
+
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            Con c = new Con();
+            String query1 = "Select distinct Branch from courses";
+            ResultSet resultSet1 = c.statement.executeQuery(query1);
+
+
+            while (resultSet1.next()){
+                chBranch.add(resultSet1.getString("Branch"));
+
+            }
+
+
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            Con c = new Con();
+            String query1 = "Select distinct Semester from courses";
+            ResultSet resultSet1 = c.statement.executeQuery(query1);
+
+
+            while (resultSet1.next()){
+                chSemester.add(resultSet1.getString("Semester"));
+
+            }
+
+
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        label7 = new JLabel("Email : ");
+        label7.setForeground(Color.BLACK);
+        label7.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label7.setBounds(140,440,550,40);
+        add(label7);
+
+        Email = new JTextField();
+        Email.setFont(new Font("Raleway",Font.BOLD,14));
+        Email.setBounds(240,452,150,23);
+        add(Email);
+
+        label8 = new JLabel("Contact : ");
+        label8.setForeground(Color.BLACK);
+        label8.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label8.setBounds(140,500,550,40);
+        add(label8);
+
+        Contact = new JTextField();
+        Contact.setFont(new Font("Raleway",Font.BOLD,14));
+        Contact.setBounds(240,512,150,23);
+        add(Contact);
+
+        label4 = new JLabel("Password : ");
+        label4.setForeground(Color.BLACK);
+        label4.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label4.setBounds(140,560,550,40);
+        add(label4);
+
+
+        Password = new JTextField();
+        Password.setFont(new Font("Raleway",Font.BOLD,14));
+        Password.setBounds(240,570,150,23);
+        add(Password);
+
+        add = new JButton("ADD");
+        add.setFont(new Font("Arial",Font.BOLD,14));
+        add.setForeground(Color.WHITE);
+        add.setBackground(Color.black);
+        add.setBounds(400,670,100,30);
+        add.addActionListener(this);
+        add(add);
+
+        back = new JButton("BACK");
+        back.setFont(new Font("Arial",Font.BOLD,14));
+        back.setForeground(Color.WHITE);
+        back.setBackground(Color.black);
+        back.setBounds(140,670,100,30);
+        back.addActionListener(this);
+        add(back);
+
+
+        setLayout(null);
+        setSize(600,770);
+        setLocation(450,20);
+        setVisible(true);
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if(e.getSource()==add){
+            String name = Name.getText();
+            String SId = StudentID.getText();
+            String pass = Password.getText();
+            String course = chCourse.getSelectedItem();
+            String branch =  chBranch.getSelectedItem();
+            String email = Email.getText();
+            String contact = Contact.getText();
+            String sem = chSemester.getSelectedItem();
+            String dob = ((JTextField) date.getDateEditor().getUiComponent()).getText();
+
+            try{
+                String emp="";
+                if(name.equals(emp)|| SId.equals(emp)|| sem.equals(emp)|| contact.equals(emp)|| course.equals(emp)|| branch.equals(emp)|| email.equals(emp)|| pass.equals(emp)){
+                    JOptionPane.showMessageDialog(null,"Entered full details");
+
+                }
+                Con c = new Con();
+                String query = "insert into student values('"+SId+"','"+name+"','"+dob+"','"+course+"','"+branch+"','"+sem+"','"+contact+"','"+email+"','"+pass+"')";
+                c.statement.executeUpdate(query);
+                JOptionPane.showMessageDialog(null,"Details added successfully");
+
+
+            }
+            catch (Exception E){
+                JOptionPane.showMessageDialog(null,"Student ID already exist");
+                E.printStackTrace();
+            }
+        }
+        else if(e.getSource()==back){
+            setVisible(false);
+            new adminaccess();
+        }
+
+
+    }
+
+
+    public static void main(String[] args) {
+
+        new addStudent();
+    }
+}
+package attendance.management;
+
+import com.sun.source.tree.CatchTree;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+
+public class addTeacher extends JFrame implements ActionListener {
+JLabel label1,label2,label3,label4,label5,label6,label7,label8,label9;
+JTextField Name,TeacherID,Password,Email,Contact;
+
+Choice chCourse,chBranch,chSemester;
+
+JButton add,back;
+    addTeacher(){
+        super("ADD TEACHER");
+
+        label1 = new JLabel("ADD TEACHER");
+        label1.setForeground(Color.BLACK);
+        label1.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label1.setBounds(220,10,550,40);
+        add(label1);
+
+        label2 = new JLabel("Name : ");
+        label2.setForeground(Color.BLACK);
+        label2.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label2.setBounds(140,80,100,40);
+        add(label2);
+
+        Name = new JTextField();
+        Name.setFont(new Font("Raleway",Font.BOLD,14));
+        Name.setBounds(240,92,150,23);
+        add(Name);
+
+        label3 = new JLabel("Teacher ID : ");
+        label3.setForeground(Color.BLACK);
+        label3.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label3.setBounds(140,140,550,40);
+        add(label3);
+
+        TeacherID = new JTextField();
+        TeacherID.setFont(new Font("Raleway",Font.BOLD,14));
+        TeacherID.setBounds(240,152,150,23);
+        add(TeacherID);
+
+        label4 = new JLabel("Password : ");
+        label4.setForeground(Color.BLACK);
+        label4.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label4.setBounds(140,200,550,40);
+        add(label4);
+
+        Password = new JTextField();
+        Password.setFont(new Font("Raleway",Font.BOLD,14));
+        Password.setBounds(240,212,150,23);
+        add(Password);
+
+
+        label5 = new JLabel("Course : ");
+        label5.setForeground(Color.BLACK);
+        label5.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label5.setBounds(140,260,100,40);
+        add(label5);
+
+        chCourse = new Choice();
+        chCourse.setBounds(240,272,200,23);
+        add(chCourse);
+
+
+        label6 = new JLabel("Branch : ");
+        label6.setForeground(Color.BLACK);
+        label6.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label6.setBounds(140,320,100,40);
+        add(label6);
+
+        chBranch = new Choice();
+        chBranch.setBounds(240,332,200,23);
+        add(chBranch);
+
+        label9 = new JLabel("Semester : ");
+        label9.setForeground(Color.BLACK);
+        label9.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label9.setBounds(140,380,100,40);
+        add(label9);
+
+        chSemester = new Choice();
+        chSemester.setBounds(240,390,200,23);
+        add(chSemester);
+
+        try{
+            Con c = new Con();
+            String query1 = "Select distinct CourseName from courses";
+            ResultSet resultSet1 = c.statement.executeQuery(query1);
+
+
+            while (resultSet1.next()){
+                chCourse.add(resultSet1.getString("CourseName"));
+
+            }
+
+
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            Con c = new Con();
+            String query1 = "Select distinct Branch from courses";
+            ResultSet resultSet1 = c.statement.executeQuery(query1);
+
+
+            while (resultSet1.next()){
+                chBranch.add(resultSet1.getString("Branch"));
+
+            }
+
+
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            Con c = new Con();
+            String query1 = "Select distinct Semester from courses";
+            ResultSet resultSet1 = c.statement.executeQuery(query1);
+
+
+            while (resultSet1.next()){
+                chSemester.add(resultSet1.getString("Semester"));
+
+            }
+
+
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        label7 = new JLabel("Email : ");
+        label7.setForeground(Color.BLACK);
+        label7.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label7.setBounds(140,440,550,40);
+        add(label7);
+
+        Email = new JTextField();
+        Email.setFont(new Font("Raleway",Font.BOLD,14));
+        Email.setBounds(240,452,150,23);
+        add(Email);
+
+        label8 = new JLabel("Contact : ");
+        label8.setForeground(Color.BLACK);
+        label8.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label8.setBounds(140,500,550,40);
+        add(label8);
+
+        Contact = new JTextField();
+        Contact.setFont(new Font("Raleway",Font.BOLD,14));
+        Contact.setBounds(240,512,150,23);
+        add(Contact);
+
+        add = new JButton("ADD");
+        add.setFont(new Font("Arial",Font.BOLD,14));
+        add.setForeground(Color.WHITE);
+        add.setBackground(Color.black);
+        add.setBounds(400,570,100,30);
+        add.addActionListener(this);
+        add(add);
+
+        back = new JButton("BACK");
+        back.setFont(new Font("Arial",Font.BOLD,14));
+        back.setForeground(Color.WHITE);
+        back.setBackground(Color.black);
+        back.setBounds(140,570,100,30);
+        back.addActionListener(this);
+        add(back);
+
+
+        setLayout(null);
+        setSize(600,770);
+        setLocation(450,150);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if(e.getSource()==add){
+            String name = Name.getText();
+            String tId = TeacherID.getText();
+            String pass = Password.getText();
+            String course = chCourse.getSelectedItem();
+            String branch =  chBranch.getSelectedItem();
+            String email = Email.getText();
+            String contact = Contact.getText();
+            String sem = chSemester.getSelectedItem();
+
+            try{
+String emp="";
+                if (name.equals(emp)|| tId.equals(emp)||pass.equals(emp)||course.equals(emp)|| branch.equals(emp)||email.equals(emp)||contact.equals(emp)||sem.equals(emp)){
+                    JOptionPane.showMessageDialog(null,"Please entered full details");
+                }
+                else {
+                    Con c = new Con();
+                    String query = "insert into teacher values('" + name + "','" + tId + "','" + pass + "','" + course + "','" + branch + "','" + email + "','" + contact + "','" + sem + "')";
+
+                    c.statement.executeUpdate(query);
+                    JOptionPane.showMessageDialog(null, "Details added successfully");
+                }
+
+            }
+            catch (Exception E){
+                E.printStackTrace();
+                JOptionPane.showMessageDialog(null,"Teacher ID already exist");
+            }
+        }
+        else if(e.getSource()==back){
+          setVisible(false);
+          new adminaccess();
+        }
+
+
+    }
+
+
+    public static void main(String[] args) {
+
+        new addTeacher();
+    }
+}
+package attendance.management;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class adminaccess extends JFrame implements ActionListener{
+    JLabel label1,label2;
+
+    JButton button1,button2,button3,button4,button5;
+
+    adminaccess(){
+        super("Admin Access");
+
+        label1 = new JLabel("WELCOME  TO  ATTENDANCE  MANAGEMENT  SYSTEM");
+        label1.setForeground(Color.BLACK);
+        label1.setFont(new Font("AvantGrade",Font.BOLD,23));
+        label1.setBounds(30,20,780,40);
+        add(label1);
+
+        label2 = new JLabel("Admin Id : ");
+        label2.setForeground(Color.BLACK);
+        label2.setFont(new Font("AvantGrade",Font.BOLD,20));
+        label2.setBounds(260,80,200,30);
+        add(label2);
+
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/books.jpeg"));
+        Image i2 = i1.getImage().getScaledInstance(100,100, Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel image = new JLabel(i3);
+        image.setBounds(290,135,100,100);
+        add(image);
+
+
+        button1 = new JButton("ADD TEACHER");
+        button1.setFont(new Font("Arial",Font.BOLD,15));
+        button1.setForeground(Color.WHITE);
+        button1.setBackground(Color.black);
+        button1.setBounds(230,260,250,30);
+        button1.addActionListener(this);
+        add(button1);
+
+        button2 = new JButton("REMOVE TEACHER");
+        button2.setFont(new Font("AvantGrade",Font.BOLD,15));
+        button2.setForeground(Color.WHITE);
+        button2.setBackground(Color.black);
+        button2.setBounds(230,300,250,30);
+        button2.addActionListener(this);
+        add(button2);
+
+        button3 = new JButton("UPDATE TEACHER");
+        button3.setFont(new Font("AvantGrade",Font.BOLD,15));
+        button3.setForeground(Color.WHITE);
+        button3.setBackground(Color.black);
+        button3.setBounds(230,340,250,30);
+        button3.addActionListener(this);
+        add(button3);
+
+       button4 = new JButton ("VIEW TEACHER");
+       button4.setFont(new Font("AvantGrade",Font.BOLD,15));
+       button4.setForeground(Color.WHITE);
+       button4.setBackground(Color.black);
+       button4.setBounds(230,380,250,30);
+       button4.addActionListener(this);
+       add(button4);
+
+        button5 = new JButton ("BACK");
+        button5.setFont(new Font("AvantGrade",Font.BOLD,15));
+        button5.setForeground(Color.WHITE);
+        button5.setBackground(Color.black);
+        button5.setBounds(230,420,250,30);
+        button5.addActionListener(this);
+        add(button5);
+
+
+        ImageIcon i11 = new ImageIcon(ClassLoader.getSystemResource("icon/adminBackground.jpg"));
+        Image i22 = i11.getImage().getScaledInstance(800,570, Image.SCALE_DEFAULT);
+        ImageIcon i33 = new ImageIcon(i22);
+        JLabel iimage = new JLabel(i33);
+        iimage.setBounds(0,0,800,570);
+        add(iimage);
+
+
+        setLayout(null);
+        setSize(700,530);
+        setLocation(450,150);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try{
+            if(e.getSource()==button1){
+                new addTeacher();
+            }
+
+            else if (e.getSource()==button2){
+
+                new removeTeacher();
+            }
+            else if(e.getSource()==button3){
+                new courseAUD();
+            }
+            else if(e.getSource()==button4){new viewTeacher();}
+
+            else {
+                new adminThree();
+                setVisible(false);
+            }
+        }
+        catch (Exception E){
+            E.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+       new adminaccess();
+    }
+}
+package attendance.management;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+
+public class AdminLogin extends JFrame implements ActionListener {
+    JButton button1;
+
+    JPasswordField password;
+    JTextField textadminID;
+    AdminLogin(){
+        super("ADMIN LOGIN");
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/admin.png"));
+        Image i2 = i1.getImage().getScaledInstance(60,60, Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel image = new JLabel(i3);
+        image.setBounds(150,0,100,100);
+        add(image);
+
+        JLabel label1 =  new JLabel("AdminId : ");
+        label1.setBounds(70,100,100,40);
+        label1.setFont(new Font("Raleway",Font.BOLD,15));
+        add(label1);
+
+        textadminID = new JTextField();
+        textadminID.setFont(new Font("Raleway",Font.BOLD,14));
+        textadminID.setBounds(180,111,150,23);
+        add(textadminID);
+
+        JLabel label2 =  new JLabel("Password : ");
+        label2.setBounds(70,150,100,40);
+        label1.setFont(new Font("Raleway",Font.BOLD,15));
+        add(label2);
+
+        password = new JPasswordField();
+        password.setFont(new Font("Raleway",Font.BOLD,14));
+        password.setBounds(180,160,150,23);
+        add(password);
+
+        button1 = new JButton("Login");
+        button1.setFont(new Font("Arial",Font.BOLD,14));
+        button1.setBackground(Color.BLACK);
+        button1.setForeground(Color.WHITE);
+        button1.setBounds(140,210,120,24);
+        button1.addActionListener(this);
+        add(button1);
+
+        getContentPane();setBackground(new Color(222,255,228));
+        setLayout(null);
+        setSize(400,300);
+        setLocation(700,300);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try{
+            if (e.getSource()==button1){
+                try{
+                    String userId =  textadminID.getText();
+                    String pass = password.getText();
+
+                    Con conn = new Con();
+
+                    String query = "select * from admin where userId = '"+ userId +"' and password = '"+ pass+"'";
+                    ResultSet resultSet = conn.statement.executeQuery(query);
+                    if (resultSet.next()){
+                        new adminThree();
+                        setVisible(false);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null,"Invalid userId or password");
+                    }
+
+
+                }
+                catch(Exception E){
+                         E.printStackTrace();
+                }
+
+            }
+
+        }
+        catch (Exception E){
+
+        }
+    }
+
+    public static void main(String[] args) {
+        new AdminLogin();
+    }
+}
+package attendance.management;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class adminThree extends JFrame implements ActionListener{
+    JLabel label1,label2;
+
+    JButton button1,button2,button3,button4;
+
+    adminThree(){
+        super("Admin Access");
+
+        label1 = new JLabel("WELCOME  TO  ATTENDANCE  MANAGEMENT  SYSTEM");
+        label1.setForeground(Color.BLACK);
+        label1.setFont(new Font("AvantGrade",Font.BOLD,23));
+        label1.setBounds(30,20,780,40);
+        add(label1);
+
+        label2 = new JLabel("Admin Id : ");
+        label2.setForeground(Color.BLACK);
+        label2.setFont(new Font("AvantGrade",Font.BOLD,20));
+        label2.setBounds(260,80,200,30);
+        add(label2);
+
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/books.jpeg"));
+        Image i2 = i1.getImage().getScaledInstance(100,100, Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel image = new JLabel(i3);
+        image.setBounds(290,135,100,100);
+        add(image);
+
+
+        button1 = new JButton("TEACHER");
+        button1.setFont(new Font("Arial",Font.BOLD,15));
+        button1.setForeground(Color.WHITE);
+        button1.setBackground(Color.black);
+        button1.setBounds(230,260,250,30);
+        button1.addActionListener(this);
+        add(button1);
+
+        button2 = new JButton("STUDENT");
+        button2.setFont(new Font("AvantGrade",Font.BOLD,15));
+        button2.setForeground(Color.WHITE);
+        button2.setBackground(Color.black);
+        button2.setBounds(230,300,250,30);
+        button2.addActionListener(this);
+        add(button2);
+
+        button3 = new JButton("COURSE");
+        button3.setFont(new Font("AvantGrade",Font.BOLD,15));
+        button3.setForeground(Color.WHITE);
+        button3.setBackground(Color.black);
+        button3.setBounds(230,340,250,30);
+        button3.addActionListener(this);
+        add(button3);
+
+        button4 = new JButton ("BACK");
+        button4.setFont(new Font("AvantGrade",Font.BOLD,15));
+        button4.setForeground(Color.WHITE);
+        button4.setBackground(Color.black);
+        button4.setBounds(230,380,250,30);
+        button4.addActionListener(this);
+        add(button4);
+
+
+        ImageIcon i11 = new ImageIcon(ClassLoader.getSystemResource("icon/adminBackground.jpg"));
+        Image i22 = i11.getImage().getScaledInstance(800,570, Image.SCALE_DEFAULT);
+        ImageIcon i33 = new ImageIcon(i22);
+        JLabel iimage = new JLabel(i33);
+        iimage.setBounds(0,0,800,570);
+        add(iimage);
+
+
+        setLayout(null);
+        setSize(700,500);
+        setLocation(450,150);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try{
+            if(e.getSource()==button1){
+                new adminaccess();
+            }
+
+            else if (e.getSource()==button2){
+
+                new removeTeacher();
+            }
+            else if(e.getSource()==button3){
+                new courseAUD();
+                setVisible(false);
+            }
+            else if(e.getSource()==button4){new Login();
+            setVisible(false);
+            }
+        }
+        catch (Exception E){
+            E.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        new adminThree();
+    }
+}
+package attendance.management;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class Con {
+    Connection connection;
+    Statement statement;
+    public Con(){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection   = DriverManager.getConnection("jdbc:mysql://localhost:3306/attendancesystem","root","aditi8305");
+            statement = connection.createStatement();
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+}
+package attendance.management;
+
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+
+public class courseAUD extends JFrame implements ActionListener {
+
+    JTable table;
+    JButton Add,Search,print,update,back;
+    Choice chcourName,chBranch,chsem;
+    courseAUD(){
+
+        getContentPane().setBackground(new Color(89, 101, 95));
+        /// Search bar
+        JLabel search1 =new JLabel("Course Name");
+        search1.setBounds(20,20,80,30);
+        add(search1);
+
+        /// DropDown
+        chcourName = new Choice();
+        chcourName.setBounds(120,25,120,20);
+        add(chcourName);
+        
+        JLabel search2 =new JLabel("Branch");
+        search2.setBounds(260,20,45,30);
+        add(search2);
+
+        chBranch = new Choice();
+        chBranch.setBounds(315,25,130,20);
+        add(chBranch);
+
+        JLabel search3 =new JLabel("Semester");
+        search3.setBounds(460,20,70,30);
+        add(search3);
+
+        chsem = new Choice();
+        chsem.setBounds(530,25,130,20);
+        add(chsem);
+
+        // get data from the database
+        try{
+            Con c = new Con();
+            String query = "Select * from courses";
+            ResultSet resultSet = c.statement.executeQuery(query);
+            while (resultSet.next()){
+                chcourName.add(resultSet.getString("CourseName"));
+                chBranch.add(resultSet.getString("Branch"));
+                chsem.add(resultSet.getString("Semester"));
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        // view all details from the database
+        table = new JTable();
+        try{
+            Con c = new Con();
+            ResultSet resultSet = c.statement.executeQuery("select * from courses");
+            table.setModel(DbUtils.resultSetToTableModel(resultSet));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        // Scroll Plane
+
+        JScrollPane jp = new JScrollPane(table);
+        jp.setBounds(0,100,900,600);
+        add(jp);
+
+        Search = new JButton("Search");
+        Search.setBounds(20,70,80,20);
+        Search.addActionListener(this);
+        add(Search);
+
+        print = new JButton("Print");
+        print.setBounds(120,70,80,20);
+        print.addActionListener(this);
+        add(print);
+
+        update = new JButton("Update");
+        update.setBounds(220,70,80,20);
+        update.addActionListener(this);
+        add(update);
+
+        Add = new JButton("Add");
+        Add.setBounds(320,70,80,20);
+        Add.addActionListener(this);
+        add(Add);
+
+        back = new JButton("Back");
+        back.setBounds(420,70,80,20);
+        back.addActionListener(this);
+        add(back);
+
+        setSize(900,700);
+        setLayout(null);
+        setLocation(300,100);
+        setVisible(true);
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if(e.getSource()==Add) {
+           new addCourse();
+        }
+        else if(e.getSource()==Search){
+            String query = "Select * from courses where CourseName = '"+chcourName.getSelectedItem()+"' and Branch = '"+chBranch.getSelectedItem()+"' and Semester = '"+chsem.getSelectedItem()+"' ";
+            try{
+                Con c = new Con();
+                ResultSet resultSet = c.statement.executeQuery(query);
+                table.setModel(DbUtils.resultSetToTableModel(resultSet));
+
+            }
+            catch (Exception E){
+                E.printStackTrace();
+            }
+        }
+
+
+
+        else if (e.getSource()==print){
+            try{
+                table.print();
+            }
+            catch (Exception E){
+                E.printStackTrace();
+            }
+
+        }
+
+        else if(e.getSource()==update){
+            setVisible(false);
+            new updateCourse(chcourName.getSelectedItem(),chBranch.getSelectedItem(),chsem.getSelectedItem());
+        }
+        else if (e.getSource()==back){
+            new adminThree();
+            setVisible(false);
+        }
+
+    }
+
+    public static void main(String[] args) {
+        new courseAUD();
+    }
+
+
+}
+package attendance.management;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Login extends JFrame implements ActionListener {
+    JLabel label1,label2;
+
+    JButton button1,button2,button3;
+    Login(){
+
+        super("Attendance Management System");
+        ImageIcon i1=new ImageIcon(ClassLoader.getSystemResource("icon/student-attendance-icon-10.jpg"));// image get by system
+        Image i2=i1.getImage() .getScaledInstance(100,100,Image.SCALE_DEFAULT);//scale
+        ImageIcon i3=new ImageIcon(i2);// converted into imageicon
+        JLabel image=new JLabel(i3);
+        image.setBounds(350,10,110,110);
+        add(image);
+
+        label1 = new JLabel("WELCOME TO STUDENT ATTENDANCE MANAGEMENT SYSTEM");
+        label1.setForeground(Color.BLACK);
+        label1.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label1.setBounds(170,125,550,40);
+        add(label1);
+
+        label2 = new JLabel("Login by...");
+        label2.setForeground(Color.BLACK);
+        label2.setFont(new Font("AvantGarde",Font.BOLD,13));
+        label2.setBounds(370,180,150,20);
+        add(label2);
+
+        button1 = new JButton("STUDENT");
+        button1.setFont(new Font("Arial",Font.BOLD,14));
+        button1.setForeground(Color.WHITE);
+        button1.setBackground(Color.black);
+        button1.setBounds(300,210,200,30);
+        button1.addActionListener(this);
+        add(button1);
+
+
+        button2 = new JButton("TEACHER");
+        button2.setFont(new Font("Arial",Font.BOLD,14));
+        button2.setForeground(Color.WHITE);
+        button2.setBackground(Color.BLACK);
+        button2.setBounds(300,260,200,30);
+        button2.addActionListener(this);
+        add(button2);
+
+        button3 = new JButton("ADMIN");
+        button3.setFont(new Font("Arial",Font.BOLD,14));
+        button3.setForeground(Color.WHITE);
+        button3.setBackground(Color.BLACK);
+        button3.setBounds(300,310,200,30);
+        button3.addActionListener(this);
+        add(button3);
+
+        ImageIcon i11=new ImageIcon(ClassLoader.getSystemResource("icon/background.jpeg"));
+        Image i22=i11.getImage().getScaledInstance(850,480,Image.SCALE_DEFAULT);
+        ImageIcon i33=new ImageIcon(i22);
+        JLabel iimage=new JLabel(i33);
+        iimage.setBounds(0,0,850,480);
+        add(iimage);
+
+        setLayout(null);
+        setSize(850,480);
+        setLocation(450,150);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try{
+            if(e.getSource()==button1){
+            new StudentLogin();
+                setVisible(false);
+            }
+            else if(e.getSource()==button2){
+                new TeacherLogin();
+                setVisible(false);
+            }
+            else if(e.getSource()==button3) {
+                new AdminLogin();
+                setVisible(false);
+            }
+        }
+        catch (Exception E){
+            E.printStackTrace();
+        }
+
+    }
+
+    public static void main(String[] args) {
+new Login();
+    }
+}
+package attendance.management;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.sql.ResultSet;
+
+public class markAttendance extends JFrame implements ActionListener {
+
+    JLabel label5,label6,label9;
+    String StuName,StuID;
+    Date date;
+    JTextField Name;
+    JTextField Status;
+    Choice chStuID;
+
+    JButton Present,Absent;
+    String Course,Branch,Sem;
+    markAttendance(String Course, String Branch, String Sem, java.util.Date utilDate){
+        super("MARK ATTENDANCE");
+        this.Course=Course;
+        this.Branch=Branch;
+        this.Sem=Sem;
+        this.date=new Date(utilDate.getTime());
+
+        chStuID = new Choice();
+        chStuID.setBounds(240,272,200,23);
+        add(chStuID);
+
+        try{
+            Con c = new Con();
+            String query = "Select * from student where Course = '"+Course+"' and Branch = '"+Branch+"' and Semester = '"+Sem+"'   ";
+            ResultSet resultSet = c.statement.executeQuery(query);
+            while (resultSet.next()){
+                chStuID.add(resultSet.getString("StuID"));
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        Present = new JButton("Present");
+        Present.setBounds(320,70,80,20);
+        Present.setBackground(Color.green);
+        Present.addActionListener(this);
+        add(Present);
+
+        Absent = new JButton("Absent");
+        Absent.setBounds(320,130,80,20);
+        Absent.setBackground(Color.red);
+        Absent.addActionListener(this);
+        add(Absent);
+
+
+        setLayout(null);
+        setSize(600,600);
+        setLocation(450,100);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Con c = new Con();
+        try{
+            if (e.getSource()==Present){
+
+
+                String query1 ="select * from student where StuID = '"+chStuID.getSelectedItem()+"'";
+                ResultSet resultSet1 = c.statement.executeQuery(query1);
+
+                if(resultSet1.next()){
+
+                    StuName=resultSet1.getString("StuName");}
+
+
+                String query = "insert into markattendance values('"+date+"','"+chStuID.getSelectedItem()+"','"+StuName+"','P','"+Course+"','"+Branch+"','"+Sem+"' )";
+                c.statement.executeUpdate(query);
+                JOptionPane.showMessageDialog(null,"Done");
+
+            }
+            else {
+
+                String query1 ="select * from student where StuID = '"+chStuID.getSelectedItem()+"'";
+                ResultSet resultSet1 = c.statement.executeQuery(query1);
+
+                if(resultSet1.next()){
+
+                    StuName=resultSet1.getString("StuName");}
+
+
+                String query = "insert into markattendance values( '"+date+"','"+chStuID.getSelectedItem()+"','"+StuName+"','A','"+Course+"','"+Branch+"','"+Sem+"' )";
+                c.statement.executeUpdate(query);
+                JOptionPane.showMessageDialog(null,"Done");
+
+            }
+        }
+        catch (Exception E){
+            E.printStackTrace();
+        }
+
+    }
+
+    public static void main(String[] args) {
+        new markAttendance("","","",new Date(System.currentTimeMillis()));
+    }
+}
+package attendance.management;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.ResultSet;
+
+public class removeTeacher extends JFrame implements ActionListener {
+
+    JButton delete,back;
+    Choice choiceTeacherId;
+    removeTeacher() {
+        super("DELETE DETAILS");
+        JLabel label = new JLabel("Teacher ID");
+        label.setBounds(50, 50, 100, 30);
+        label.setFont(new Font("Tahoma", Font.BOLD, 15));
+        add(label);
+
+        choiceTeacherId = new Choice();
+        choiceTeacherId.setBounds(200, 54, 150, 30);
+        add(choiceTeacherId);
+
+        try {
+            Con c = new Con();
+            ResultSet resultSet = c.statement.executeQuery("select * from teacher");
+            while (resultSet.next()) {
+                choiceTeacherId.add(resultSet.getString("teacherID"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JLabel labelName = new JLabel("Name");
+        labelName.setBounds(50,100,100,30);
+        labelName.setFont(new Font("Tahoma",Font.BOLD,15));
+        add(labelName);
+
+        JLabel textName = new JLabel();
+        textName.setBounds(200,100,100,30);
+        add(textName);
+
+        JLabel labelPhone = new JLabel("Contact");
+        labelPhone.setBounds(50,150,100,30);
+        labelPhone.setFont(new Font("Tahoma",Font.BOLD,15));
+        add(labelPhone);
+
+        JLabel textPhone = new JLabel();
+        textPhone.setBounds(200,150,100,30);
+        add(textPhone);
+
+        JLabel labelEmail = new JLabel("Email");
+        labelEmail.setBounds(50,200,100,30);
+        labelEmail.setFont(new Font("Tahoma",Font.BOLD,15));
+        add(labelEmail);
+
+        JLabel textEmail = new JLabel();
+        textEmail.setBounds(200,200,100,30);
+        add(textEmail);
+
+        delete = new JButton("DELETE");
+        delete.setFont(new Font("Arial",Font.BOLD,9));
+        delete.setForeground(Color.WHITE);
+        delete.setBackground(Color.BLACK);
+        delete.setBounds(250,270,70,20);
+        delete.addActionListener(this);
+        add(delete);
+
+        back = new JButton("BACK");
+        back.setFont(new Font("Arial",Font.BOLD,9));
+        back.setForeground(Color.WHITE);
+        back.setBackground(Color.BLACK);
+        back.setBounds(50,270,70,20);
+        back.addActionListener(this);
+        add(back);
+
+        try{
+            Con c = new Con();
+            ResultSet resultSet = c.statement.executeQuery("Select * from Teacher where TeacherID='"+choiceTeacherId.getSelectedItem()+"'");
+            while(resultSet.next()){
+                textName.setText(resultSet.getString("TeacherName"));
+                textPhone.setText(resultSet.getString("Contact"));
+                textEmail.setText(resultSet.getString("EmailId"));
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        choiceTeacherId.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                try {
+                    Con c = new Con();
+                    ResultSet resultSet = c.statement.executeQuery("Select * from Teacher where TeacherID='"+choiceTeacherId.getSelectedItem()+"'");
+                    while(resultSet.next()){
+                        textName.setText(resultSet.getString("TeacherName"));
+                        textPhone.setText(resultSet.getString("Contact"));
+                        textEmail.setText(resultSet.getString("EmailId"));
+                    }
+
+                }
+                catch (Exception E){
+                    E.printStackTrace();
+                }
+            }
+        });
+        setSize(600, 400);
+        setLocation(300, 150);
+        setLayout(null);
+        setVisible(true);
+
+
+    }
+    @Override
+    public void actionPerformed (ActionEvent e){
+        if(e.getSource()==delete){
+            try{
+                Con c = new Con();
+                String query = "delete from Teacher where TeacherID = '"+choiceTeacherId.getSelectedItem()+"'";
+                c.statement.executeUpdate(query);
+                JOptionPane.showMessageDialog(null,"Teacher Deleted Successfully");
+                new viewTeacher();
+
+
+            }
+            catch (Exception E){
+                E.printStackTrace();
+            }
+        }
+        else{
+            new adminaccess();
+        }
+
+    }
+
+    public static void main (String[]args){
+        new removeTeacher();
+    }
+}
+package attendance.management;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+
+public class StudentLogin extends JFrame implements ActionListener {
+JButton button1;
+
+JPasswordField textPassword;
+JTextField textStuID;
+    StudentLogin(){
+        super("STUDENT  LOGIN");
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/StudentLogin.jpg"));
+        Image i2 = i1.getImage().getScaledInstance(60,60,Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel image = new JLabel(i3);
+        image.setBounds(150,0,100,100);
+        add(image);
+
+        JLabel label1 =  new JLabel("StudentID : ");
+        label1.setBounds(70,100,100,40);
+        label1.setFont(new Font("Raleway",Font.BOLD,15));
+        add(label1);
+
+        textStuID = new JTextField();
+        textStuID.setFont(new Font("Raleway",Font.BOLD,14));
+        textStuID.setBounds(180,111,150,23);
+        add(textStuID);
+
+        JLabel label2 = new JLabel("Password : ");
+        label2.setBounds(70,150,100,40);
+        label2.setFont(new Font("Raleway",Font.BOLD,15));
+        add(label2);
+
+        textPassword = new JPasswordField();
+        textPassword.setFont(new Font("Raleway",Font.BOLD,14));
+        textPassword.setBounds(180,160,150,23);
+        add(textPassword);
+
+        button1 = new JButton("Login");
+        button1.setFont(new Font("Arial",Font.BOLD,14));
+        button1.setForeground(Color.WHITE);
+        button1.setBackground(Color.BLACK);
+        button1.setBounds(140,210,120,24);
+        button1.addActionListener(this);
+        add(button1);
+
+        getContentPane().setBackground(new Color(222,255,228));
+        setLayout(null);
+        setSize(400,300);
+        setLocation(700,300);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource()==button1) {
+            new studentviewattendance(textStuID.getText());
+
+        }
+else{
+        }
+
+
+    }
+
+    public static void main(String[] args) {
+        new StudentLogin();
+    }
+}
+package attendance.management;
+
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+
+public class studentview extends JFrame implements ActionListener {
+
+    JTable table;
+    JButton Add,Search,print,update,back;
+    Choice choiceSuId;
+    studentview(){
+
+        getContentPane().setBackground(new Color(89, 101, 95));
+        /// Search bar
+        JLabel search =new JLabel("Search by Student Id");
+        search.setBounds(20,20,150,30);
+        add(search);
+
+        /// DropDown
+        choiceSuId = new Choice();
+        choiceSuId.setBounds(180,20,150,20);
+        add(choiceSuId);
+
+        // get data from the database
+        try{
+            Con c = new Con();
+            String query = "Select * from student";
+            ResultSet resultSet = c.statement.executeQuery(query);
+            while (resultSet.next()){
+                choiceSuId.add(resultSet.getString("StuID"));
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        // view all details from the database
+        table = new JTable();
+        try{
+            Con c = new Con();
+            ResultSet resultSet = c.statement.executeQuery("select * from student");
+            table.setModel(DbUtils.resultSetToTableModel(resultSet));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        // Scroll Plane
+
+        JScrollPane jp = new JScrollPane(table);
+        jp.setBounds(0,100,900,600);
+        add(jp);
+
+        Search = new JButton("Search");
+        Search.setBounds(20,70,80,20);
+        Search.addActionListener(this);
+        add(Search);
+
+        print = new JButton("Print");
+        print.setBounds(120,70,80,20);
+        print.addActionListener(this);
+        add(print);
+
+        update = new JButton("Update");
+        update.setBounds(220,70,80,20);
+        update.addActionListener(this);
+        add(update);
+
+        back = new JButton("Back");
+        back.setBounds(320,70,80,20);
+        back.addActionListener(this);
+        add(back);
+
+        Add = new JButton("Add");
+        Add.setBounds(420,70,80,20);
+        Add.setBackground(Color.ORANGE);
+        Add.addActionListener(this);
+        add(Add);
+
+        setSize(900,700);
+        setLayout(null);
+        setLocation(300,100);
+        setVisible(true);
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if(e.getSource()==Add){
+            new addStudent();
+
+        }
+
+        else if(e.getSource()==Search){
+            String query = "Select * from student where StuID = '"+choiceSuId.getSelectedItem()+"'";
+            try{
+                Con c = new Con();
+                ResultSet resultSet = c.statement.executeQuery(query);
+                table.setModel(DbUtils.resultSetToTableModel(resultSet));
+
+            }
+            catch (Exception E){
+                E.printStackTrace();
+            }
+        }
+
+        else if (e.getSource()==print){
+            try{
+                table.print();
+            }
+            catch (Exception E){
+                E.printStackTrace();
+            }
+
+        }
+        else if(e.getSource()==update){
+            setVisible(false);
+            new updateTeacher(choiceSuId.getSelectedItem());
+        }
+        else if (e.getSource()==back){
+            new adminaccess();
+            setVisible(false);
+        }
+
+    }
+
+    public static void main(String[] args) {
+        new studentview();
+    }
+
+
+}
+package attendance.management;
+
+import com.toedter.calendar.JDateChooser;
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.sql.ResultSet;
+
+public class studentviewattendance extends JFrame implements ActionListener {
+
+
+    JLabel chCourse,chBranch,chSem;
+    JLabel label2,label3,label4,label5,label6,label7;
+
+    JLabel teachName,teachId,teachMailId,teachContact;
+    String ID;
+    JTable table;
+    JButton Details,Attendance,Update,View ;
+    JDateChooser date;
+    studentviewattendance(String ID){
+        this.ID=ID;
+
+        JLabel label1 = new JLabel("WELCOME TO STUDENT ATTENDANCE MANAGEMENT SYSTEM");
+        label1.setForeground(Color.BLACK);
+        label1.setFont(new Font("AvantGarde",Font.BOLD,20));
+        label1.setBounds(190,0,650,40);
+        add(label1);
+
+        Details = new JButton("DETAILS");
+        Details.setFont(new Font("Arial",Font.BOLD,14));
+        Details.setForeground(Color.WHITE);
+        Details.setBackground(Color.orange );
+        Details.setBounds(880,10,100,20);
+        Details.addActionListener(this);
+        add(Details);
+
+        label2 = new JLabel("Name : ");
+        label2.setForeground(Color.BLACK);
+        label2.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label2.setBounds(190,50,100,40);
+        add(label2);
+
+        teachName = new JLabel("");
+        teachName.setFont(new Font("AvantGrade",Font.BOLD,16));
+        teachName.setBounds(290,50,300,40);
+        add(teachName);
+
+        label3 = new JLabel("Student ID : ");
+        label3.setForeground(Color.BLACK);
+        label3.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label3.setBounds(190,90,200,40);
+        add(label3);
+
+        teachId = new JLabel("");
+        teachId.setFont(new Font("AvantGrade",Font.BOLD,16));
+        teachId.setBounds(290,90,300,40);
+        add(teachId);
+
+        label3 = new JLabel("Email : ");
+        label3.setForeground(Color.BLACK);
+        label3.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label3.setBounds(190,130,200,40);
+        add(label3);
+
+        teachMailId = new JLabel("");
+        teachMailId.setFont(new Font("AvantGrade",Font.BOLD,16));
+        teachMailId.setBounds(290,130,300,40);
+        add(teachMailId);
+
+        label4 = new JLabel("Contact : ");
+        label4.setForeground(Color.BLACK);
+        label4.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label4.setBounds(570,50,100,40);
+        add(label4);
+
+        teachContact = new JLabel("");
+        teachContact.setFont(new Font("AvantGrade",Font.BOLD,16));
+        teachContact.setBounds(670,50,150,40);
+        add(teachContact);
+
+
+        label5 = new JLabel("Course : ");
+        label5.setForeground(Color.BLACK);
+        label5.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label5.setBounds(570,90,100,40);
+        add(label5);
+
+
+
+        chCourse = new JLabel("");
+        chCourse.setFont(new Font("AvantGrade",Font.BOLD,16));
+        chCourse.setBounds(670,88,150,40);
+        add(chCourse);
+
+        label6 = new JLabel("Branch : ");
+        label6.setForeground(Color.BLACK);
+        label6.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label6.setBounds(570,130,100,40);
+        add(label6);
+
+
+        chBranch = new JLabel("");
+        chBranch.setFont(new Font("AvantGrade",Font.BOLD,16));
+        chBranch.setBounds(670,130,150,40);
+        add(chBranch);
+
+        label7 = new JLabel("Semester : ");
+        label7.setForeground(Color.BLACK);
+        label7.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label7.setBounds(820,50,90,40);
+        add(label7);
+
+
+        chSem = new JLabel("");
+        chSem.setFont(new Font("AvantGrade",Font.BOLD,16));
+        chSem.setBounds(920,50,50,40);
+        add(chSem);
+
+
+
+
+
+
+        date = new JDateChooser();
+        date.setFont(new Font("Raleway",Font.BOLD,14));
+        date.setBounds(210,180,150,20);
+        add(date);
+
+
+
+
+
+        try{
+            Con c = new Con();
+            String query = "select * from student where StuID = '"+ID+"' ";
+            ResultSet resultSet = c.statement.executeQuery(query);
+            while (resultSet.next()){
+                teachName.setText(resultSet.getString("StuName"));
+                teachId.setText(resultSet.getString("StuID"));
+                teachMailId.setText(resultSet.getString("EmailId"));
+                teachContact.setText(resultSet.getString("Contact"));
+                chCourse.setText(resultSet.getString("Course"));
+                chBranch.setText(resultSet.getString("Branch"));
+                chSem.setText(resultSet.getString("Semester"));
+
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        // view all details from the database
+        table = new JTable();
+        try{
+            Con c = new Con();
+            ResultSet resultSet = c.statement.executeQuery("select * from markattendance where StuId = '"+ID+"' ");
+            table.setModel(DbUtils.resultSetToTableModel(resultSet));
+        }
+        catch (Exception E){
+            E.printStackTrace();
+        }
+        JScrollPane jp = new JScrollPane(table);
+        jp.setBounds(45,230,900,600);
+        add(jp);
+
+
+        setLayout(null);
+        setSize(1000,700);
+        setLocation(300,100);
+        setVisible(true);
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
+
+    public static void main(String[] args) {
+        new studentviewattendance("");
+    }
+
+}
+
+package attendance.management;
+
+import com.toedter.calendar.JDateChooser;
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.sql.ResultSet;
+
+public class teacheracess extends JFrame implements ActionListener {
+
+
+    Choice chCourse,chBranch,chSem;
+    JLabel label2,label3,label4,label5,label6,label7;
+
+    JLabel teachName,teachId,teachMailId,teachContact;
+    String ID;
+    JTable table;
+    JButton Details,Attendance,Update,View ;
+    JDateChooser date;
+    teacheracess(String ID){
+        this.ID=ID;
+
+        JLabel label1 = new JLabel("WELCOME TO STUDENT ATTENDANCE MANAGEMENT SYSTEM");
+        label1.setForeground(Color.BLACK);
+        label1.setFont(new Font("AvantGarde",Font.BOLD,20));
+        label1.setBounds(190,0,650,40);
+        add(label1);
+
+        Details = new JButton("DETAILS");
+        Details.setFont(new Font("Arial",Font.BOLD,14));
+        Details.setForeground(Color.WHITE);
+        Details.setBackground(Color.orange );
+        Details.setBounds(880,10,100,20);
+        Details.addActionListener(this);
+        add(Details);
+
+        label2 = new JLabel("Name : ");
+        label2.setForeground(Color.BLACK);
+        label2.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label2.setBounds(190,50,100,40);
+        add(label2);
+
+        teachName = new JLabel("");
+        teachName.setFont(new Font("AvantGrade",Font.BOLD,16));
+        teachName.setBounds(290,50,300,40);
+        add(teachName);
+
+        label3 = new JLabel("Teacher ID : ");
+        label3.setForeground(Color.BLACK);
+        label3.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label3.setBounds(190,90,200,40);
+        add(label3);
+
+        teachId = new JLabel("");
+        teachId.setFont(new Font("AvantGrade",Font.BOLD,16));
+        teachId.setBounds(290,90,300,40);
+        add(teachId);
+
+        label3 = new JLabel("Email : ");
+        label3.setForeground(Color.BLACK);
+        label3.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label3.setBounds(190,130,200,40);
+        add(label3);
+
+        teachMailId = new JLabel("");
+        teachMailId.setFont(new Font("AvantGrade",Font.BOLD,16));
+        teachMailId.setBounds(290,130,300,40);
+        add(teachMailId);
+
+        label4 = new JLabel("Contact : ");
+        label4.setForeground(Color.BLACK);
+        label4.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label4.setBounds(570,50,100,40);
+        add(label4);
+
+        teachContact = new JLabel("");
+        teachContact.setFont(new Font("AvantGrade",Font.BOLD,16));
+        teachContact.setBounds(670,50,150,40);
+        add(teachContact);
+
+
+        label5 = new JLabel("Course : ");
+        label5.setForeground(Color.BLACK);
+        label5.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label5.setBounds(570,90,100,40);
+        add(label5);
+
+
+        chCourse = new Choice();
+        chCourse.setBounds(670,100,150,23);
+        add(chCourse);
+
+        label6 = new JLabel("Branch : ");
+        label6.setForeground(Color.BLACK);
+        label6.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label6.setBounds(570,130,100,40);
+        add(label6);
+
+
+        chBranch = new Choice();
+        chBranch.setBounds(670,140,150,23);
+        add(chBranch);
+
+        label7 = new JLabel("Semester : ");
+        label7.setForeground(Color.BLACK);
+        label7.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label7.setBounds(820,50,90,40);
+        add(label7);
+
+
+        chSem = new Choice();
+        chSem.setBounds(920,60,50,23);
+        add(chSem);
+
+        Attendance = new JButton("ATTENDANCE");
+        Attendance.setFont(new Font("Arial",Font.BOLD,14));
+        Attendance.setForeground(Color.WHITE);
+        Attendance.setBackground(Color.RED );
+        Attendance.setBounds(40,180,150,20);
+        Attendance.addActionListener(this);
+        add(Attendance);
+
+        Update = new JButton("UPDATE");
+        Update.setFont(new Font("Arial",Font.BOLD,14));
+        Update.setForeground(Color.WHITE);
+        Update.setBackground(Color.LIGHT_GRAY );
+        Update.setBounds(370,180,130,20);
+        Update.addActionListener(this);
+        add(Update);
+
+        View = new JButton("VIEW");
+        View.setFont(new Font("Arial",Font.BOLD,14));
+        View.setForeground(Color.WHITE);
+        View.setBackground(Color.LIGHT_GRAY );
+        View.setBounds(600,180,130,20);
+        View.addActionListener(this);
+        add(View);
+
+        date = new JDateChooser();
+        date.setFont(new Font("Raleway",Font.BOLD,14));
+        date.setBounds(210,180,150,20);
+        add(date);
+
+        try{
+            Con c = new Con();
+            String query1 = "Select distinct Course from teacher where TeacherID = '"+ID+"'";
+            ResultSet resultSet1 = c.statement.executeQuery(query1);
+
+
+            while (resultSet1.next()){
+                chCourse.add(resultSet1.getString("Course"));
+
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            Con c = new Con();
+            String query1 = "Select distinct Branch from teacher where TeacherID = '"+ID+"'";
+            ResultSet resultSet1 = c.statement.executeQuery(query1);
+
+
+            while (resultSet1.next()){
+                chBranch.add(resultSet1.getString("Branch"));
+
+            }
+
+
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            Con c = new Con();
+            String query1 = "Select distinct Semester from teacher where TeacherID = '"+ID+"'";
+            ResultSet resultSet1 = c.statement.executeQuery(query1);
+
+
+            while (resultSet1.next()){
+                chSem.add(resultSet1.getString("Semester"));
+
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            Con c = new Con();
+            String query = "select * from teacher where TeacherID = '"+ID+"' ";
+            ResultSet resultSet = c.statement.executeQuery(query);
+            while (resultSet.next()){
+                teachName.setText(resultSet.getString("TeacherName"));
+                teachId.setText(resultSet.getString("TeacherID"));
+               teachMailId.setText(resultSet.getString("EmailId"));
+                teachContact.setText(resultSet.getString("Contact"));
+
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        setLayout(null);
+        setSize(1000,700);
+        setLocation(300,100);
+        setVisible(true);
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try{
+            if(e.getSource()==Details){
+                new studentview();
+            }
+            else if (e.getSource()==Attendance){
+                new markAttendance(chCourse.getSelectedItem(),chBranch.getSelectedItem(),chSem.getSelectedItem(), date.getDate());
+
+            }
+            else if (e.getSource()==Update){
+                new updateAttendance(chCourse.getSelectedItem(),chBranch.getSelectedItem(),chSem.getSelectedItem(), date.getDate());
+
+            }
+            else {
+                // get data from the database
+                try{
+                    Con c = new Con();
+                    String query = "Select * from markattendance where Course = '"+chCourse.getSelectedItem()+"' and Branch = '"+chBranch.getSelectedItem()+"' and Semester = '"+chSem.getSelectedItem()+"'";
+
+
+                }
+                catch (Exception E){
+                    E.printStackTrace();
+                }
+                // view all details from the database
+                table = new JTable();
+                try{
+                    Con c = new Con();
+                    ResultSet resultSet = c.statement.executeQuery("select * from markattendance ");
+                    table.setModel(DbUtils.resultSetToTableModel(resultSet));
+                }
+                catch (Exception E){
+                    E.printStackTrace();
+                }
+                JScrollPane jp = new JScrollPane(table);
+                jp.setBounds(45,230,900,600);
+                add(jp);
+
+            }
+
+
+
+
+
+               // new vieAttendance();
+
+
+        }
+        catch (Exception E){
+            E.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        new teacheracess("");
+    }
+
+}
+
+package attendance.management;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+
+public class TeacherLogin extends JFrame implements ActionListener {
+    JButton button1;
+
+    JPasswordField textPassword;
+    JTextField textTeachID;
+    TeacherLogin(){
+        super("TEACHER  LOGIN");
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/StudentLogin.jpg"));
+        Image i2 = i1.getImage().getScaledInstance(60,60,Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel image = new JLabel(i3);
+        image.setBounds(150,0,100,100);
+        add(image);
+
+        JLabel label1 =  new JLabel("TeacherID : ");
+        label1.setBounds(70,100,100,40);
+        label1.setFont(new Font("Raleway",Font.BOLD,15));
+        add(label1);
+
+        textTeachID = new JTextField();
+        textTeachID.setFont(new Font("Raleway",Font.BOLD,14));
+        textTeachID.setBounds(180,111,150,23);
+        add(textTeachID);
+
+        JLabel label2 = new JLabel("Password : ");
+        label2.setBounds(70,150,100,40);
+        label2.setFont(new Font("Raleway",Font.BOLD,15));
+        add(label2);
+
+        textPassword = new JPasswordField();
+        textPassword.setFont(new Font("Raleway",Font.BOLD,14));
+        textPassword.setBounds(180,160,150,23);
+        add(textPassword);
+
+        button1 = new JButton("Login");
+        button1.setFont(new Font("Arial",Font.BOLD,14));
+        button1.setForeground(Color.WHITE);
+        button1.setBackground(Color.BLACK);
+        button1.setBounds(140,210,120,24);
+        button1.addActionListener(this);
+        add(button1);
+
+        getContentPane().setBackground(new Color(222,255,228));
+        setLayout(null);
+        setSize(400,300);
+        setLocation(700,300);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource()==button1) {
+            try{
+                String userId = textTeachID.getText();
+                String pass = textPassword.getText();
+
+                Con conn = new Con();
+
+                String query = "select * from teacher where TeacherID = '"+ userId +"' and Password = '"+ pass+"'";
+                ResultSet resultSet = conn.statement.executeQuery(query);
+                if (resultSet.next()){
+                    new teacheracess(textTeachID.getText());
+                    //new adminaccess();
+                    setVisible(false);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null,"Invalid TeacherId or password");
+                }
+
+
+            }
+            catch(Exception E){
+                E.printStackTrace();
+            }
+
+
+        }
+        else{
+        }
+
+
+    }
+
+    public static void main(String[] args) {
+        new TeacherLogin();
+    }
+}
+package attendance.management;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.sql.ResultSet;
+
+public class updateAttendance extends JFrame implements ActionListener {
+
+    JLabel label5,label6,label9;
+    String StuName,StuID;
+    Date date;
+    JTextField Name;
+    JTextField Status;
+    Choice chStuID;
+
+    JButton Present,Absent;
+    String Course,Branch,Sem;
+    updateAttendance(String Course, String Branch, String Sem, java.util.Date utilDate){
+        super("UPDATE ATTENDANCE");
+        this.Course=Course;
+        this.Branch=Branch;
+        this.Sem=Sem;
+        this.date=new Date(utilDate.getTime());
+
+        chStuID = new Choice();
+        chStuID.setBounds(240,272,200,23);
+        add(chStuID);
+
+        try{
+            Con c = new Con();
+            String query = "Select * from student where Course = '"+Course+"' and Branch = '"+Branch+"' and Semester = '"+Sem+"'   ";
+            ResultSet resultSet = c.statement.executeQuery(query);
+            while (resultSet.next()){
+                chStuID.add(resultSet.getString("StuID"));
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        Present = new JButton("Present");
+        Present.setBounds(320,70,80,20);
+        Present.setBackground(Color.green);
+        Present.addActionListener(this);
+        add(Present);
+
+        Absent = new JButton("Absent");
+        Absent.setBounds(320,130,80,20);
+        Absent.setBackground(Color.red);
+        Absent.addActionListener(this);
+        add(Absent);
+
+
+        setLayout(null);
+        setSize(600,600);
+        setLocation(450,100);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Con c = new Con();
+        try{
+            if (e.getSource()==Present){
+
+
+                String query ="update markattendance set Status = 'P' where StuId='"+chStuID.getSelectedItem()+"'";
+
+                c.statement.executeUpdate(query);
+                JOptionPane.showMessageDialog(null,"Done");
+
+            }
+            else {
+
+                String query ="update markattendance set Status = 'A' where StuId='"+chStuID.getSelectedItem()+"'";
+
+                c.statement.executeUpdate(query);
+                JOptionPane.showMessageDialog(null,"Done");
+
+            }
+        }
+        catch (Exception E){
+            E.printStackTrace();
+        }
+
+    }
+
+    public static void main(String[] args) {
+        new updateAttendance("","","",new Date(System.currentTimeMillis()));
+    }
+}
+package attendance.management;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+
+public class updateCourse extends JFrame implements ActionListener {
+    JTextField Name,Password,Email,Contact;
+
+    Choice Course,Branch,Semester;
+    JLabel label1,label5,label6,label9;
+    JButton update,back;
+
+    String CName,CBranch,CSemester;
+    updateCourse(String CName,String CBranch,String CSemester){
+
+        super("UPDATE COURSE");
+
+        this.CName=CName;
+        this.CBranch=CBranch;
+        this.CSemester=CSemester;
+        label1 = new JLabel("UPDATE COURSE DETAILS");
+        label1.setForeground(Color.BLACK);
+        label1.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label1.setBounds(190,10,550,40);
+        add(label1);
+
+        label5 = new JLabel("Course : ");
+        label5.setForeground(Color.BLACK);
+        label5.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label5.setBounds(140,260,100,40);
+        add(label5);
+
+//        chCourse = new Choice();
+//        chCourse.setBounds(240,272,200,23);
+//        add(chCourse);
+
+
+        label6 = new JLabel("Branch : ");
+        label6.setForeground(Color.BLACK);
+        label6.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label6.setBounds(140,320,100,40);
+        add(label6);
+
+//        chBranch = new Choice();
+//        chBranch.setBounds(240,332,200,23);
+//        add(chBranch);
+
+        label9 = new JLabel("Semester : ");
+        label9.setForeground(Color.BLACK);
+        label9.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label9.setBounds(140,380,100,40);
+        add(label9);
+
+//        chSemester = new Choice();
+//        chSemester.setBounds(240,390,200,23);
+//        add(chSemester);
+
+        try{
+            Con c = new Con();
+            String query = "select * from teacher where CourseName = '"+CName+"' and Branch = '"+CBranch+"',and Semester = '"+CSemester+"'";
+            ResultSet resultSet = c.statement.executeQuery(query);
+            while (resultSet.next()){
+//                Branch.setSelectedItem(resultSet.getString("Branch"));
+//                Branch.setSelectedItem(resultSet.getString("Branch"));
+//                Email.setText(resultSet.getString("EmailId"));
+                Contact.setText(resultSet.getString("Contact"));
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        update = new JButton("UPDATE");
+        update.setFont(new Font("Arial",Font.BOLD,14));
+        update.setForeground(Color.WHITE);
+        update.setBackground(Color.black);
+        update.setBounds(400,570,100,30);
+        update.addActionListener(this);
+        add(update);
+
+        back = new JButton("BACK");
+        back.setFont(new Font("Arial",Font.BOLD,14));
+        back.setForeground(Color.WHITE);
+        back.setBackground(Color.black);
+        back.setBounds(140,570,100,30);
+        back.addActionListener(this);
+        add(back);
+
+
+        setLayout(null);
+        setSize(600,700);
+        setLocation(450,150);
+        setVisible(true);
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+   /*     if(e.getSource()==update){
+            String name = Name.getText();
+            String pass = Password.getText();
+            String Courses = (String) Course.getSelectedItem();
+            String branch = (String) Branch.getSelectedItem();
+            String mail = Email.getText();
+            String cont = Contact.getText();
+            String sem = (String) Semester.getSelectedItem();
+
+            try {
+                Con c = new Con();
+                String query = "update teacher set TeacherName = '"+name+"',Password = '"+pass+"',Course = '"+Courses+"',Branch = '"+branch+"',EmailId='"+mail+"',Contact='"+cont+"',Semester='"+sem+"' where TeacherID = '"+ID+"'";
+                c.statement.executeUpdate(query);
+                JOptionPane.showMessageDialog(null,"Details Updated");
+                new viewTeacher();
+            }
+            catch (Exception E){
+                E.printStackTrace();
+            }
+        }
+        else{
+            new viewTeacher();
+            setVisible(false);
+        }*/
+
+    }
+
+    public static void main(String[] args) {
+        new updateCourse("","","");
+    }
+}
+package attendance.management;
+
+import com.sun.source.tree.CatchTree;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+
+public class updateTeacher extends JFrame implements ActionListener {
+    JLabel label1,label2,label3,label4,label5,label6,label7,label8,label9,TeacherID;
+    JTextField Name,Password,Email,Contact;
+
+    Choice chCourse,chBranch,chSemester;
+
+    JButton update,back;
+    String ID;
+
+    String name,pass,course,branch,email,contact,sem;
+    updateTeacher(String ID){
+
+        super("UPDATE TEACHER");
+        this.ID=ID;
+
+
+        label1 = new JLabel("UPDATE TEACHER");
+        label1.setForeground(Color.BLACK);
+        label1.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label1.setBounds(220,10,550,40);
+        add(label1);
+
+        label2 = new JLabel("Name : ");
+        label2.setForeground(Color.BLACK);
+        label2.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label2.setBounds(140,80,100,40);
+        add(label2);
+
+        Name = new JTextField("111");
+        Name.setFont(new Font("Raleway",Font.BOLD,14));
+        Name.setBounds(240,92,150,23);
+        add(Name);
+
+        label3 = new JLabel("Teacher ID : ");
+        label3.setForeground(Color.BLACK);
+        label3.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label3.setBounds(140,140,550,40);
+        add(label3);
+
+        TeacherID = new JLabel(ID);
+        TeacherID.setFont(new Font("Raleway",Font.BOLD,14));
+        TeacherID.setBounds(240,152,150,23);
+        add(TeacherID);
+
+        label4 = new JLabel("Password : ");
+        label4.setForeground(Color.BLACK);
+        label4.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label4.setBounds(140,200,550,40);
+        add(label4);
+
+        Password = new JTextField();
+        Password.setFont(new Font("Raleway",Font.BOLD,14));
+        Password.setBounds(240,212,150,23);
+        add(Password);
+
+
+        label5 = new JLabel("Course : ");
+        label5.setForeground(Color.BLACK);
+        label5.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label5.setBounds(140,260,100,40);
+        add(label5);
+
+        chCourse = new Choice();
+        chCourse.setBounds(240,272,200,23);
+        add(chCourse);
+
+
+        label6 = new JLabel("Branch : ");
+        label6.setForeground(Color.BLACK);
+        label6.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label6.setBounds(140,320,100,40);
+        add(label6);
+
+        chBranch = new Choice();
+        chBranch.setBounds(240,332,200,23);
+        add(chBranch);
+
+        label9 = new JLabel("Semester : ");
+        label9.setForeground(Color.BLACK);
+        label9.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label9.setBounds(140,380,100,40);
+        add(label9);
+
+        chSemester = new Choice();
+        chSemester.setBounds(240,390,200,23);
+        add(chSemester);
+
+        try{
+            Con c = new Con();
+            String query1 = "Select distinct CourseName from courses";
+            ResultSet resultSet1 = c.statement.executeQuery(query1);
+
+
+            while (resultSet1.next()){
+                chCourse.add(resultSet1.getString("CourseName"));
+
+            }
+
+
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            Con c = new Con();
+            String query1 = "Select distinct Branch from courses";
+            ResultSet resultSet1 = c.statement.executeQuery(query1);
+
+
+            while (resultSet1.next()){
+                chBranch.add(resultSet1.getString("Branch"));
+
+            }
+
+
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            Con c = new Con();
+            String query1 = "Select distinct Semester from courses";
+            ResultSet resultSet1 = c.statement.executeQuery(query1);
+
+
+            while (resultSet1.next()){
+                chSemester.add(resultSet1.getString("Semester"));
+
+            }
+
+
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        label7 = new JLabel("Email : ");
+        label7.setForeground(Color.BLACK);
+        label7.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label7.setBounds(140,440,550,40);
+        add(label7);
+
+        Email = new JTextField();
+        Email.setFont(new Font("Raleway",Font.BOLD,14));
+        Email.setBounds(240,452,150,23);
+        add(Email);
+
+        label8 = new JLabel("Contact : ");
+        label8.setForeground(Color.BLACK);
+        label8.setFont(new Font("AvantGarde",Font.BOLD,16));
+        label8.setBounds(140,500,550,40);
+        add(label8);
+
+        Contact = new JTextField();
+        Contact.setFont(new Font("Raleway",Font.BOLD,14));
+        Contact.setBounds(240,512,150,23);
+        add(Contact);
+
+        update = new JButton("UPDATE");
+        update.setFont(new Font("Arial",Font.BOLD,14));
+        update.setForeground(Color.WHITE);
+        update.setBackground(Color.black);
+        update.setBounds(400,570,100,30);
+        update.addActionListener(this);
+        add(update);
+
+        back = new JButton("BACK");
+        back.setFont(new Font("Arial",Font.BOLD,14));
+        back.setForeground(Color.WHITE);
+        back.setBackground(Color.black);
+        back.setBounds(140,570,100,30);
+        back.addActionListener(this);
+        add(back);
+
+        // get data from the database
+        try{
+            Con c = new Con();
+            String query = "Select * from teacher where TeacherID = '"+ID+"'";
+            ResultSet resultSet = c.statement.executeQuery(query);
+
+
+            while (resultSet.next()){
+                Name.setText(resultSet.getString("TeacherName"));
+                Password.setText(resultSet.getString("Password"));
+                Email.setText(resultSet.getString("EmailId"));
+                Contact.setText(resultSet.getString("Contact"));
+
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        setLayout(null);
+        setSize(600,770);
+        setLocation(450,150);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if(e.getSource()==update){
+            String name = Name.getText();
+            String pass = Password.getText();
+            String course = chCourse.getSelectedItem();
+            String branch =  chBranch.getSelectedItem();
+            String email = Email.getText();
+            String contact = Contact.getText();
+            String sem = chSemester.getSelectedItem();
+
+            try{
+
+                Con c = new Con();
+                String query = "update teacher set TeacherName = '"+name+"',Password='"+pass+"',Course = '"+course+"',Branch = '"+branch+"',EmailId = '"+email+"',Contact='"+contact+"',Semester='"+sem+"' where TeacherID='"+ID+"' ";
+                c.statement.executeUpdate(query);
+                JOptionPane.showMessageDialog(null,"Details updated successfully");
+
+
+            }
+            catch (Exception E){
+                E.printStackTrace();
+            }
+        }
+        else if(e.getSource()==back){
+            setVisible(false);
+            new adminaccess();
+        }
+
+
+    }
+
+
+    public static void main(String[] args) {
+
+        new updateTeacher("");
+    }
+}
+package attendance.management;
+
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+
+public class viewTeacher extends JFrame implements ActionListener {
+
+    JTable table;
+    JButton Search,print,update,back;
+    Choice choiceTeacId;
+    viewTeacher(){
+
+        getContentPane().setBackground(new Color(89, 101, 95));
+        /// Search bar
+        JLabel search =new JLabel("Search by Teacher Id");
+        search.setBounds(20,20,150,30);
+        add(search);
+
+        /// DropDown
+        choiceTeacId = new Choice();
+        choiceTeacId.setBounds(180,20,150,20);
+        add(choiceTeacId);
+
+        // get data from the database
+        try{
+            Con c = new Con();
+            String query = "Select * from teacher";
+            ResultSet resultSet = c.statement.executeQuery(query);
+            while (resultSet.next()){
+                choiceTeacId.add(resultSet.getString("TeacherID"));
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        // view all details from the database
+        table = new JTable();
+        try{
+            Con c = new Con();
+            ResultSet resultSet = c.statement.executeQuery("select * from teacher");
+            table.setModel(DbUtils.resultSetToTableModel(resultSet));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        // Scroll Plane
+
+        JScrollPane jp = new JScrollPane(table);
+        jp.setBounds(0,100,900,600);
+        add(jp);
+
+        Search = new JButton("Search");
+        Search.setBounds(20,70,80,20);
+        Search.addActionListener(this);
+        add(Search);
+
+        print = new JButton("Print");
+        print.setBounds(120,70,80,20);
+        print.addActionListener(this);
+        add(print);
+
+        update = new JButton("Update");
+        update.setBounds(220,70,80,20);
+        update.addActionListener(this);
+        add(update);
+
+        back = new JButton("Back");
+        back.setBounds(320,70,80,20);
+        back.addActionListener(this);
+        add(back);
+
+        setSize(900,700);
+        setLayout(null);
+        setLocation(300,100);
+        setVisible(true);
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==Search){
+            String query = "Select * from teacher where TeacherID = '"+choiceTeacId.getSelectedItem()+"'";
+            try{
+                Con c = new Con();
+                ResultSet resultSet = c.statement.executeQuery(query);
+                table.setModel(DbUtils.resultSetToTableModel(resultSet));
+
+            }
+            catch (Exception E){
+                E.printStackTrace();
+            }
+        }
+
+        else if (e.getSource()==print){
+            try{
+                table.print();
+            }
+            catch (Exception E){
+                E.printStackTrace();
+            }
+
+        }
+        else if(e.getSource()==update){
+            setVisible(false);
+            new updateTeacher(choiceTeacId.getSelectedItem());
+        }
+        else if (e.getSource()==back){
+            new adminaccess();
+            setVisible(false);
+        }
+
+    }
+
+    public static void main(String[] args) {
+        new viewTeacher();
+    }
+
+
+}
